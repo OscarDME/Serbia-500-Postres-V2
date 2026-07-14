@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { copy } from "@/lib/copy";
 
 export default function Guarantee() {
@@ -10,13 +9,10 @@ export default function Guarantee() {
           <div aria-hidden className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-[#0E7C7B]/15 blur-3xl" />
 
           <div className="relative grid items-center gap-8 md:grid-cols-[auto_1fr] md:gap-12">
-            <Image
+            <img
               src={guarantee.image.src}
               alt={guarantee.image.alt}
-              width={2200}
-              height={1920}
               loading="lazy"
-              sizes="208px"
               className="mx-auto h-40 w-40 object-contain anim-float md:h-52 md:w-52"
             />
             <div className="text-center md:text-left">
