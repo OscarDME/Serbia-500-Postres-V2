@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.anim-float { animation: float 5.5s ease-in-out infinite; }
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+.anim-float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+.cta-shimmer { position: relative; overflow: hidden; isolation: isolate; }
+.cta-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+  transform: translateX(-120%);
+  animation: shimmer 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(14, 124, 123, 0.55); }
+  70%  { box-shadow: 0 0 0 22px rgba(14, 124, 123, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 124, 123, 0); }
+}
+.anim-pulse-ring { animation: pulse-ring 2.2s ease-out infinite; }
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal-up { animation: reveal-up 0.7s ease-out both; }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.anim-marquee { animation: marquee 28s linear infinite; }
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+.anim-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+#final-cta-section { scroll-margin-top: 96px; }
+
+::selection { background: #D9622A; color: #fff; }
+
+.lift { transition: transform 300ms ease, box-shadow 300ms ease; }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -20px rgba(42, 27, 34, 0.25); }
