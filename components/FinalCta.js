@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { copy } from "@/lib/copy";
 import { BASE_CHECKOUT_URL, buildCheckoutUrl, fireBeginCheckout } from "@/lib/checkout";
+import CheckoutEmbed from "./CheckoutEmbed";
+
+const CHECKOUT_SLUG = new URL(BASE_CHECKOUT_URL).pathname.split("/").filter(Boolean).pop();
 
 export default function FinalCta() {
   const { finalCta } = copy;
   const [checkoutUrl, setCheckoutUrl] = useState(BASE_CHECKOUT_URL);
+  const [showCheckout, setShowCheckout] = useState(false);
 
   useEffect(() => {
     setCheckoutUrl(buildCheckoutUrl());
@@ -15,6 +19,16 @@ export default function FinalCta() {
 
   const handleClick = () => {
     fireBeginCheckout(finalCta.offerPrice);
+  };
+
+  // Abre el checkout embebido debajo (sin redirección). InitiateCheckout al abrir.
+  const handleOpenCheckout = () => {
+    setShowCheckout(true);
+    fireBeginCheckout(finalCta.offerPrice);
+    setTimeout(() => {
+      const el = document.getElementById("checkout-embed-anchor");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
   };
 
   return (
@@ -111,14 +125,14 @@ export default function FinalCta() {
                 </div>
               </div>
 
-              <a
-                href={checkoutUrl}
-                onClick={handleClick}
+              <button
+                type="button"
+                onClick={handleOpenCheckout}
                 className="cta-shimmer anim-pulse-ring mt-6 inline-flex w-full items-center justify-center rounded-2xl border-b-4 border-[#084A49] bg-[#0E7C7B] px-6 py-6 text-lg font-black uppercase tracking-wide text-white shadow-2xl transition hover:translate-y-[-1px] hover:bg-[#0B615F]"
               >
                 {finalCta.button}
                 <span className="ml-2 text-2xl">→</span>
-              </a>
+              </button>
 
               <p className="mt-3 text-center text-sm font-black uppercase tracking-widest text-[#A8461C]">
                 {finalCta.urgencyNote}
@@ -131,6 +145,12 @@ export default function FinalCta() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Checkout OrioPay — oculto hasta "Comprar"; se despliega debajo del card.
+            Altura auto de OrioPay; ancho ~full en móvil (a nivel de sección). */}
+        <div id="checkout-embed-anchor" className="scroll-mt-24">
+          <CheckoutEmbed slug={CHECKOUT_SLUG} show={showCheckout} />
         </div>
       </div>
     </section>

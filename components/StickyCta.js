@@ -17,7 +17,12 @@ export default function StickyCta() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleClick = () => fireBeginCheckout(finalCta.offerPrice);
+  // CTA suave: lleva a la sección del precio (donde el botón "Comprar" abre el
+  // checkout). Scroll por JS, sin cambiar la URL (evita PageViews fantasma).
+  const handleScrollToCta = () => {
+    const el = document.getElementById("final-cta-section");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div
@@ -39,14 +44,14 @@ export default function StickyCta() {
             </span>
           </div>
         </div>
-        <a
-          href={checkoutUrl}
-          onClick={handleClick}
+        <button
+          type="button"
+          onClick={handleScrollToCta}
           className="cta-shimmer inline-flex items-center justify-center rounded-xl border-b-4 border-[#084A49] bg-[#0E7C7B] px-5 py-3 text-sm font-black uppercase tracking-wide text-white shadow-lg"
         >
           {stickyCta.ctaLabel}
           <span className="ml-1.5 text-base">→</span>
-        </a>
+        </button>
       </div>
     </div>
   );
